@@ -12,6 +12,7 @@
     "v-wave": "^1.2.8",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
+    "vue-skeletor": "^1.0.6",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
