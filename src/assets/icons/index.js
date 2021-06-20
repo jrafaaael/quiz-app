@@ -2,8 +2,10 @@ import './minus.svg'
 import './plus.svg'
 
 import './atom.svg'
-import './baseball-outline.svg'
 import './dice-outline.svg'
-import './film.svg'
+import './movie-clapperboard.svg'
 import './globe-americas.svg'
 import './head-side-brain.svg'
+import './tv-retro.svg'
+
+import './long-arrow-right.svg'

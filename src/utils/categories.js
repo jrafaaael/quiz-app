@@ -12,17 +12,17 @@ const CATEGORIES = [
     {
         name: "Film",
         id: 11,
-        iconName: "film",
+        iconName: "movie-clapperboard",
+    },
+    {
+        name: "Television",
+        id: 14,
+        iconName: "tv-retro",
     },
     {
         name: "Science & Nature",
         id: 17,
         iconName: "atom",
-    },
-    {
-        name: "Sports",
-        id: 21,
-        iconName: "baseball-outline",
     },
     {
         name: "Geography",
