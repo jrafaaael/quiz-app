@@ -16,6 +16,7 @@
                     v-model="difficulty"
                     :id="option"
                     :value="option"
+                    class="sr-only"
                     type="radio"
                     name="difficulty"
                     @change="changeOption"
@@ -92,18 +93,6 @@ export default {
     transform: translateY(-50%);
     z-index: 1;
     transition: all ease 250ms;
-}
-
-input {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
 }
 
 label {

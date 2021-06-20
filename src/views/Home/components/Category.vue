@@ -128,7 +128,6 @@ export default {
 .radio-icon svg {
     width: 3rem;
     height: 3rem;
-    fill: currentColor;
 }
 
 .radio-label {
