@@ -70,6 +70,11 @@ svg {
     border-width: 0;
 }
 
+*:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 @media all and (min-width: 600px) {
     main :is(form, section) {
         height: fit-content;

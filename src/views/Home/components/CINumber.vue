@@ -132,11 +132,6 @@ button {
     align-items: center;
 }
 
-*:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
 svg {
     width: 13px;
     height: 13px;
