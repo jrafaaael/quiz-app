@@ -12,7 +12,7 @@
                     </label>
                     <c-i-number
                         :min="10"
-                        :max="50"
+                        :max="25"
                         :step="5"
                         id="questions"
                         @new-value="changeQuestionsQuantity($event)"
@@ -64,7 +64,7 @@ import CINumber from "./components/CINumber";
 import Difficulty from "./components/Difficulty";
 import Category from "./components/Category";
 
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 import CATEGORIES from "@/utils/categories";
 
@@ -86,37 +86,23 @@ export default {
             "changeDifficulty",
             "changeCategory",
         ]),
+        ...mapActions("GAME", ["getQuestions"]),
         handleSubmit() {
-            console.log('x');
-        }
+            this.$router.push({
+                name: "Game",
+                params: {
+                    id: this.QUESTION,
+                },
+            });
+        },
     },
+    computed: {
+        ...mapState('GAME', ['QUESTION'])
+    }
 };
 </script>
 
 <style scoped>
-main {
-    width: 100%;
-    min-height: 100vh;
-    background-color: aliceblue;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-form {
-    width: 100%;
-    max-width: 625px;
-    min-height: 100vh;
-    padding: 1.5rem 1rem;
-    background-color: snow;
-    border-radius: 10px;
-    box-shadow: 1px 2px 4px 1px rgba(0, 0, 0, 0.2);
-}
-
-form > *:not(:last-child) {
-    margin-bottom: 1rem;
-}
-
 h1,
 h1 > span {
     font-family: "Roboto", sans-serif;
@@ -157,6 +143,7 @@ legend {
 }
 
 .submit {
+    margin-top: auto;
     justify-content: center;
     align-items: center;
 }
@@ -171,19 +158,5 @@ legend {
     font-size: 1.2rem;
     font-weight: 700;
     cursor: pointer;
-}
-
-@media all and (min-width: 600px) {
-    form {
-        min-height: 0;
-        padding: 2rem 2.5rem;
-        position: relative;
-    }
-
-    .user-container {
-        position: absolute;
-        transform: translateY(-50px) translateX(-50%);
-        left: 50%;
-    }
 }
 </style>
