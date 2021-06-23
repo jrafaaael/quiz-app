@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div class="next-question-container">
-                <button @click="nextQuestion" :disabled="!userAnswer">
+                <button :disabled="!userAnswer" v-wave @click="nextQuestion">
                     Next Question
                     <span>
                         <icon name="long-arrow-right" />
@@ -50,7 +50,6 @@
                 </button>
             </div>
         </section>
-        {{ SCORE }}
     </main>
 </template>
 
@@ -79,40 +78,26 @@ export default {
     },
     methods: {
         ...mapActions("GAME", [
+            "getQuestions",
             "setCurrentQuestionNumber",
-            "setGameState",
-            "setQuestions",
             "increaseScore",
-            "resetScore"
         ]),
         nextQuestion() {
             if (this.QUESTION < this.NUMBER_OF_QUESTIONS) {
                 if (this.checkCorrectAnswer) this.increaseScore();
                 this.setCurrentQuestionNumber(this.QUESTION + 1);
                 this.userAnswer = null;
-                this.$router.push({
-                    name: "Game",
-                    params: {
-                        id: this.QUESTION,
-                    },
-                });
+                document.querySelector('input:checked').checked = false;
             } else if (this.checkEndGame) {
-                this.resetGame();
+                this.$router.push({
+                    name: "Score",
+                });
             }
-        },
-        resetGame() {
-            this.setGameState("finished");
-            this.setCurrentQuestionNumber(1);
-            this.setQuestions(null);
-            this.resetScore();
-            this.$router.push({
-                name: "Home",
-            });
         },
     },
     computed: {
         ...mapState("GAME_CONFIG", ["NUMBER_OF_QUESTIONS"]),
-        ...mapState("GAME", ["QUESTION", "QUESTIONS", "GAME_STATE", "SCORE"]),
+        ...mapState("GAME", ["QUESTION", "QUESTIONS", "GAME_STATE"]),
         answers() {
             if (this.GAME_STATE !== "finished") {
                 return [
@@ -133,6 +118,9 @@ export default {
                 this.QUESTIONS[this.QUESTION - 1].correct_answer
             );
         },
+    },
+    async created() {
+        await this.getQuestions();
     },
 };
 </script>
@@ -188,6 +176,7 @@ button {
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
         0 3px 1px -2px rgba(0, 0, 0, 0.2);
     color: snow;
+    font-size: 1.2rem;
     text-transform: capitalize;
     font-weight: 700;
     cursor: pointer;

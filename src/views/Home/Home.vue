@@ -23,9 +23,10 @@
                         <h4>Time</h4>
                     </label>
                     <c-i-number
-                        :min="5"
+                        :min="10"
                         :max="25"
                         :step="5"
+                        id="time"
                         :globalDisabled="true"
                     />
                 </div>
@@ -64,7 +65,7 @@ import CINumber from "./components/CINumber";
 import Difficulty from "./components/Difficulty";
 import Category from "./components/Category";
 
-import { mapActions, mapState } from "vuex";
+import { mapActions } from "vuex";
 
 import CATEGORIES from "@/utils/categories";
 
@@ -86,19 +87,22 @@ export default {
             "changeDifficulty",
             "changeCategory",
         ]),
-        ...mapActions("GAME", ["getQuestions"]),
+        ...mapActions("GAME", ["resetScore", "setGameState", "setQuestions", "setCurrentQuestionNumber"]),
         handleSubmit() {
             this.$router.push({
                 name: "Game",
-                params: {
-                    id: this.QUESTION,
-                },
             });
         },
+        resetGame() {
+            this.setGameState("finished");
+            this.setCurrentQuestionNumber(1);
+            this.setQuestions(null);
+            this.resetScore();
+        },
     },
-    computed: {
-        ...mapState('GAME', ['QUESTION'])
-    }
+    mounted() {
+        this.resetGame();
+    },
 };
 </script>
 

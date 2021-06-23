@@ -1,8 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home/Home.vue'
 import Game from "../views/Game/Game.vue";
-
-import store from "@/store";
+import Score from "../views/Score/Score.vue";
 
 const routes = [
   {
@@ -11,10 +10,15 @@ const routes = [
     component: Home
   },
   {
-    path: '/question/:id',
+    path:'/game',
     name: 'Game',
     component: Game,
     params: true
+  },
+  {
+    path: '/score',
+    name: 'Score',
+    component: Score
   }
 ]
 
@@ -23,20 +27,10 @@ const router = createRouter({
   routes
 })
 
-router.afterEach(async (to, from) => {
-  if(to.path.includes('question')) {
-    if (to.params.id === "1") await store.dispatch("GAME/getQuestions");
-    else document.querySelector("input:checked").checked = false;
-  }
-});
-
 router.beforeEach((to, from) => {
-  if(to.path.includes('question') && to.params.id != store._state.data.GAME.QUESTION) {
+  if(to.path.includes('game') && from.path.includes('score')) {
     return {
-        name: "Game",
-        params: {
-            id: store._state.data.GAME.QUESTION,
-        },
+      name: "Home",
     };
   }
 })
