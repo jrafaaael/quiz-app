@@ -3,7 +3,7 @@
 </template>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto:wght@100;300;400;500;700;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto:wght@100;300;400;500;700;900&display=swap");
 *,
 *::after,
 *::before {
@@ -11,7 +11,7 @@
     padding: 0;
     box-sizing: border-box;
 
-    font-family: 'Lato', sans-serif;
+    font-family: "Lato", sans-serif;
     letter-spacing: 0.125rem;
 }
 
@@ -20,6 +20,7 @@ body,
 #app {
     width: 100%;
     height: 100%;
+    /* min-height: 100vh; */
     color: #333;
 }
 
@@ -27,15 +28,12 @@ main {
     width: 100%;
     height: 100%;
     background-color: aliceblue;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 main :is(form, section) {
     width: 100%;
     max-width: 625px;
-    height: 100%;
+    min-height: 100%;
     padding: 1.5rem 1rem;
     background-color: snow;
     border-radius: 10px;
@@ -76,8 +74,15 @@ svg {
 }
 
 @media all and (min-width: 600px) {
+    main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     main :is(form, section) {
         height: fit-content;
+        min-height: 0;
         padding: 2rem 2.5rem;
         display: block;
         position: relative;
