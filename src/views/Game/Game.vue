@@ -1,19 +1,9 @@
 <template>
     <main>
-        <section>
-            <div class="question-counter-container">
-                <p class="question-counter">
-                    <span>Question {{ QUESTION }}</span
-                    >/{{ NUMBER_OF_QUESTIONS }}
-                </p>
-            </div>
-            <div class="category-container">
-                <p v-if="QUESTIONS" class="category">
-                    {{ QUESTIONS[QUESTION - 1].category }}
-                </p>
-                <skeletor v-else width="50%" />
-            </div>
+        <form @submit.prevent="nextQuestion" ref="form">
+            <time-bar :max="TIME" :value="timeToEnd" />
             <div class="question-container">
+                <span>{{ QUESTION }}/{{ NUMBER_OF_QUESTIONS }}</span>
                 <h3 v-if="QUESTIONS">
                     {{
                         Parser.parse(
@@ -26,12 +16,16 @@
                     <skeletor />
                     <skeletor width="50%" />
                 </div>
+                <span v-if="QUESTIONS">{{
+                    QUESTIONS[QUESTION - 1].category
+                }}</span>
             </div>
             <div class="answer-container">
                 <div v-if="QUESTIONS" class="wrapper">
                     <answer
                         v-for="(answer, i) in answers"
                         v-model:userAnswer="userAnswer"
+                        :disabled="timeEnd"
                         :key="i"
                         :answer="answer"
                         :id="`a${QUESTION}${i}`"
@@ -42,19 +36,20 @@
                 </div>
             </div>
             <div class="next-question-container">
-                <button :disabled="!userAnswer" v-wave @click="nextQuestion">
+                <button :disabled="!userAnswer && !timeEnd" v-wave>
                     Next Question
                     <span>
                         <icon name="long-arrow-right" />
                     </span>
                 </button>
             </div>
-        </section>
+        </form>
     </main>
 </template>
 
 <script>
 import Answer from "./components/Answer.vue";
+import TimeBar from "./components/TimeBar.vue";
 import Icon from "@/components/Icon";
 
 import { mapActions, mapState } from "vuex";
@@ -67,6 +62,7 @@ import Parser from "../../utils/parser";
 export default {
     components: {
         Answer,
+        TimeBar,
         Icon,
         Skeletor,
     },
@@ -74,6 +70,9 @@ export default {
         return {
             Parser: new Parser(),
             userAnswer: null,
+            timeToEnd: null,
+            timerID: null,
+            timeEnd: false,
         };
     },
     methods: {
@@ -87,16 +86,32 @@ export default {
                 if (this.checkCorrectAnswer) this.increaseScore();
                 this.setCurrentQuestionNumber(this.QUESTION + 1);
                 this.userAnswer = null;
-                document.querySelector('input:checked').checked = false;
+                this.timeToEnd = this.TIME;
+                this.timeEnd = false;
+                this.$refs.form.reset();
+                clearInterval(this.timerID);
+                this.timerID = setInterval(this.countdown, 1000);
             } else if (this.checkEndGame) {
                 this.$router.push({
                     name: "Score",
                 });
             }
         },
+        countdown() {
+            this.timeToEnd--;
+        },
+    },
+    watch: {
+        timeToEnd(n, o) {
+            if (n <= 0) {
+                clearInterval(this.timerID);
+                this.timeEnd = true;
+                this.userAnswer = null;
+            }
+        },
     },
     computed: {
-        ...mapState("GAME_CONFIG", ["NUMBER_OF_QUESTIONS"]),
+        ...mapState("GAME_CONFIG", ["NUMBER_OF_QUESTIONS", "TIME"]),
         ...mapState("GAME", ["QUESTION", "QUESTIONS", "GAME_STATE"]),
         answers() {
             if (this.GAME_STATE !== "finished") {
@@ -121,11 +136,65 @@ export default {
     },
     async created() {
         await this.getQuestions();
+        this.timeToEnd = this.TIME;
+        this.timerID = setInterval(this.countdown, 1000);
     },
 };
 </script>
 
 <style scoped>
+form {
+    overflow: hidden;
+}
+
+.question-container {
+    height: 200px;
+    margin-top: auto;
+    padding: 1rem;
+    background-color: #9481ffbd;
+    border-radius: 5px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+}
+
+.question-container > span {
+    content: "";
+    width: fit-content;
+    padding: 0.25rem 0.75rem;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    font-weight: 700;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+}
+
+.question-container > span:first-child {
+    top: -15px;
+}
+
+.question-container > span:last-child {
+    bottom: -15px;
+}
+
+.skeletons {
+    width: 100%;
+    text-align: left;
+}
+
+.question-container .vue-skeletor {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.answer-container .vue-skeletor {
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
 .question-counter-container {
     width: fit-content;
     margin: auto;

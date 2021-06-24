@@ -14,6 +14,7 @@
                         :min="10"
                         :max="25"
                         :step="5"
+                        :currentValue="NUMBER_OF_QUESTIONS"
                         id="questions"
                         @new-value="changeQuestionsQuantity($event)"
                     />
@@ -26,8 +27,9 @@
                         :min="10"
                         :max="25"
                         :step="5"
+                        :currentValue="TIME"
                         id="time"
-                        :globalDisabled="true"
+                        @new-value="changeTimeToResponse($event)"
                     />
                 </div>
                 <div class="difficulty">
@@ -65,7 +67,7 @@ import CINumber from "./components/CINumber";
 import Difficulty from "./components/Difficulty";
 import Category from "./components/Category";
 
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 import CATEGORIES from "@/utils/categories";
 
@@ -86,8 +88,14 @@ export default {
             "changeQuestionsQuantity",
             "changeDifficulty",
             "changeCategory",
+            "changeTimeToResponse",
         ]),
-        ...mapActions("GAME", ["resetScore", "setGameState", "setQuestions", "setCurrentQuestionNumber"]),
+        ...mapActions("GAME", [
+            "resetScore",
+            "setGameState",
+            "setQuestions",
+            "setCurrentQuestionNumber",
+        ]),
         handleSubmit() {
             this.$router.push({
                 name: "Game",
@@ -99,6 +107,9 @@ export default {
             this.setQuestions(null);
             this.resetScore();
         },
+    },
+    computed: {
+        ...mapState("GAME_CONFIG", ["NUMBER_OF_QUESTIONS", "TIME"]),
     },
     mounted() {
         this.resetGame();
