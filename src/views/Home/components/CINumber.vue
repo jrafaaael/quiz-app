@@ -52,11 +52,12 @@ export default {
             type: Boolean,
             default: false,
         },
-        id: String
+        id: String,
+        currentValue: Number
     },
     data() {
         return {
-            value: this.min,
+            value: this.currentValue ?? this.min,
         };
     },
     methods: {
