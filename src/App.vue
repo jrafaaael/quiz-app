@@ -20,7 +20,6 @@ body,
 #app {
     width: 100%;
     height: 100%;
-    /* min-height: 100vh; */
     color: #333;
 }
 
@@ -36,7 +35,6 @@ main :is(form, section) {
     min-height: 100%;
     padding: 1.5rem 1rem;
     background-color: snow;
-    border-radius: 10px;
     box-shadow: 1px 2px 4px 1px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
@@ -83,17 +81,24 @@ svg {
     main :is(form, section) {
         height: fit-content;
         min-height: 0;
-        padding: 2rem 2.5rem;
+        border-radius: 10px;
         display: block;
         position: relative;
     }
 
-    main :is(form, section) > *:not(:last-child) {
-        margin-bottom: 1rem;
+    main form {
+        padding: 2rem 2.5rem;
     }
 
-    .user-container,
-    .question-counter-container {
+    main section {
+        padding: 1.5rem 2.5rem;
+    }
+
+    main :is(form, section) > *:not(:last-child) {
+        margin-bottom: 1.5rem;
+    }
+
+    .user-container {
         position: absolute;
         left: 50%;
         transform: translateY(-50px) translateX(-50%);
