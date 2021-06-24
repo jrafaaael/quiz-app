@@ -6,6 +6,7 @@
             class="sr-only"
             type="radio"
             name="card"
+            :disabled="disabled"
             @change="$emit('update:userAnswer', $event.target.value)"
         />
         <label :for="id">
@@ -21,7 +22,7 @@ import Parser from "../../../utils/parser";
 
 export default {
     name: "Answer",
-    props: ["answer", "id"],
+    props: ["answer", "id", "disabled"],
     data() {
         return {
             Parser: new Parser(),
@@ -108,5 +109,12 @@ input:checked + label:hover span:after {
 
 .option:not(:last-child) {
     margin-bottom: 7px;
+}
+
+input:disabled + label {
+    cursor: not-allowed;
+    border-color: transparent;
+    opacity: 0.5;
+    transition: none;
 }
 </style>
