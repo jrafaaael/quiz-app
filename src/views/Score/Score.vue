@@ -3,6 +3,7 @@
         <section>
             <h1>Congratulations!</h1>
             <h3>You score is {{ SCORE }}/{{ NUMBER_OF_QUESTIONS }}</h3>
+            <confetti :config="confettiConfig" />
             <img :src="imageToLoad.path" :alt="imageToLoad.description" />
             <button v-wave>
                 <router-link :to="{ name: 'Home' }">
@@ -10,12 +11,11 @@
                 </router-link>
             </button>
         </section>
-        <confetti :config="confettiConfig" />
     </main>
 </template>
 
 <script>
-import Confetti from "@/components/Confetti";
+import Confetti from "./components/Confetti.vue";
 
 import { mapState } from "vuex";
 
@@ -62,6 +62,10 @@ section {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.confetti-canon {
+    margin: 0;
 }
 
 img {
