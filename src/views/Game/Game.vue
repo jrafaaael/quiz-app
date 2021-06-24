@@ -187,11 +187,8 @@ form {
     text-align: left;
 }
 
-.question-container .vue-skeletor {
-    background-color: rgba(255, 255, 255, 0.15);
-}
-
-.answer-container .vue-skeletor {
+.vue-skeletor {
+    width: 100%;
     background-color: rgba(0, 0, 0, 0.15);
 }
 
