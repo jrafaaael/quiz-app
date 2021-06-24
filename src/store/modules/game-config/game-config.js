@@ -2,16 +2,18 @@
 import {
     changeCategory,
     changeDifficulty,
-    changeQuestionsQuantity
+    changeQuestionsQuantity,
+    changeTimeToResponse,
 } from "./mutation-types";
 
 // VARIABLES
 const GAME_CONFIG = {
     namespaced: true,
     state: {
-        CATEGORY: '',
-        DIFFICULTY: 'easy',
+        CATEGORY: "",
+        DIFFICULTY: "easy",
         NUMBER_OF_QUESTIONS: 10,
+        TIME: 10,
     },
     mutations: {
         [changeCategory](state, payload) {
@@ -23,19 +25,25 @@ const GAME_CONFIG = {
         [changeQuestionsQuantity](state, payload) {
             state.NUMBER_OF_QUESTIONS = payload;
         },
+        [changeTimeToResponse](state, payload) {
+            state.TIME = payload;
+        },
     },
     actions: {
         changeCategory({ commit }, payload) {
-            commit('changeCategory', payload);
+            commit("changeCategory", payload);
         },
         changeDifficulty({ commit }, payload) {
-            commit('changeDifficulty', payload);
+            commit("changeDifficulty", payload);
         },
         changeQuestionsQuantity({ commit }, payload) {
-            commit('changeQuestionsQuantity', payload);
+            commit("changeQuestionsQuantity", payload);
+        },
+        changeTimeToResponse({ commit }, payload) {
+            commit("changeTimeToResponse", payload);
         },
     },
-}
+};
 
 // EXPORTS
 export default GAME_CONFIG;
