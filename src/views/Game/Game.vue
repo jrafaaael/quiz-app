@@ -191,14 +191,6 @@ form {
     width: 100%;
 }
 
-.question-container .vue-skeletor {
-    background-color: rgba(255, 255, 255, 0.15);
-}
-
-.answer-container .vue-skeletor {
-    background-color: rgba(0, 0, 0, 0.15);
-}
-
 .question-counter-container {
     width: fit-content;
     margin: auto;
