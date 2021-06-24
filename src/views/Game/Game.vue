@@ -4,7 +4,7 @@
             <time-bar :max="TIME" :value="timeToEnd" />
             <div class="question-container">
                 <span>{{ QUESTION }}/{{ NUMBER_OF_QUESTIONS }}</span>
-                <h3 v-if="QUESTIONS">
+                <h3 v-if="null">
                     {{
                         Parser.parse(
                             QUESTIONS[QUESTION - 1].question,
@@ -184,7 +184,15 @@ form {
 
 .skeletons {
     width: 100%;
-    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: start;
+    gap: 1rem;
+}
+
+.answer-container .skeletons {
+    gap: 2rem;
 }
 
 .vue-skeletor {
@@ -218,15 +226,6 @@ form {
 .category {
     font-weight: 700;
     color: rgba(51, 51, 51, 0.75);
-}
-
-.answer-container .skeletons {
-    margin-top: 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    gap: 2rem;
 }
 
 .next-question-container {
